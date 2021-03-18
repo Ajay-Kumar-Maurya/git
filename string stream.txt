@@ -1,0 +1,148 @@
+Note :- string object is not a native data type, therefore cannot be converted to a regular data type by casting.
+
+
+String Stream in C++
+
+Header File : #include<sstream>
+
+Methods -
+1) sso.str()   : Returns string from stream
+2) sso.str("") : Empty the contents of stringstream. (Replace old content by new content of stringstream)
+3) sso.clear() : Empty the bit flags.
+4) sso.eof()   : It returns true when stringstream is ended.
+Note :- A non-empty stringstream object has bit flags indicating its status as good, bad, eof, or fail.
+Note :- If it is not possible to convert string to int, then stringstream extracts 0 as result.
+Note :- stringstream does not read whitespace as input.
+Note :- stringstream divides space-separated data into separate strings (On the basis on whitespace). 
+Note :- stringstream extracts one space-separated string at a time.
+
+In order to use String Stream, we have to create an object of it first.
+Like other streams, here we can also use insertion and extraction operators.
+
+Application :
+Count number of words in a string
+Print frequencies of individual words in a string	(Important)
+Reading data word by word from string
+Removing spaces from a string
+Converting Strings to Numbers
+Converting Decimal to Hexadecimal
+
+e.g. :- Using endl for stringstream
+   string s = "Window 10";
+
+   stringstream sso;
+   sso << s << endl;
+
+
+
+e.g. :- Convert int to string
+int num = 234312;
+string str;
+
+stringstream sso;
+sso << num;		// Load data into the stream
+sso >> str;		// Extract data from the stream
+
+
+
+
+e.g. :- Convert string to int
+   string s = "234312";			// Try For = 233awe3423, ewrw, rqe324er
+   int num;
+
+   stringstream sso;
+   sso << s;		// Load data into the stream
+   sso >> num;		// Extract data from the stream
+
+
+
+
+e.g. :- Convert Decimal to Hexadecimal using string stream.
+   int num = 61;
+
+   stringstream sso;
+   sso << hex << num;
+
+   string res = sso.str();
+   cout << "The hexadecimal value of 61 is: " << res;
+
+
+
+
+e.g. :- Looping in stringstream
+   string s("Hello from the dark side");
+   vector<string> words;
+   string temp;
+
+   stringstream sso(s);
+
+   while(sso >> temp){
+      words.push_back(temp);
+   }
+
+
+e.g. - Returning string modified by stringstream
+					Method 1
+   string fun(string name, int age)
+   {
+      stringstream sso;
+      sso << "Your name is : << name <<endl;
+      sso << "Your age is : << age <<endl;
+
+      return sso.str();
+   }
+
+
+					Method 2
+   string fun(string name, int age)
+   {
+      stringstream sso;
+      sso << "Your name is : << name <<endl;
+      sso << "Your age is : << age <<endl;
+
+      string s;
+      sso >> s;
+
+      return s;
+   }
+
+
+Extract Integer from stringstream (Important) :
+Concept : 
+Concept : We should not directly extract integer from stringstream, 
+#include <iostream>
+#include <sstream>
+using namespace std;
+
+void extractIntegerWords(string str)
+{
+   stringstream sso;
+
+   /* Storing the whole string into string stream */
+   sso << str;
+
+   /* Running loop till the end of the stream */
+   string temp;
+   int found;
+   while (!sso.eof()) {
+
+      /* extracting word by word from stream */
+      sso >> temp;
+
+      /* Checking the given word is integer or not. If word is not integer, then found becomes 0. */
+      if (stringstream(temp) >> found)
+         cout << found << " ";
+
+      /* To save from space at the end of string */
+      temp = "";
+   }
+}
+
+// Driver code
+int main()
+{ 
+   string str = "1: 2 3 4 prakhar";
+   extractIntegerWords(str);
+
+   return 0;
+}
